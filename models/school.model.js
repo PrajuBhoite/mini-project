@@ -5,7 +5,7 @@ const schoolsSchema = new mongoose.Schema({
     name: { type: String, require: true },
     userId: { type: mongoose.SchemaTypes.ObjectId, ref: "User" },
     tagline: { type: String, require: true },
-    mobile: { type: String , require: true },
+    mobile: { type: String , require: true ,unique: true},
     address: {
         street: { type: String },
         city: String,
