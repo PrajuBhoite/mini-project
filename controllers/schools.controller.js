@@ -4,7 +4,7 @@ const {
   isValid,
   isValidString,
   isValidObject,
-  isValidEmail,
+ 
 } = require("../utils");
 
 
@@ -27,7 +27,7 @@ const getAllschools = async (req, res) => {
   };
   try {
     const schools = await schoolsModel.find({  // find function find all schools if deleted = false.
-      isDeleted: false,    // I dont want to deleted user so I want to existed todo 
+      isDeleted: false,     
       userId: res.locals.userId,
     });
     response.data = { schools };
@@ -87,7 +87,7 @@ const createschool = async (req, res) => {
   try {
     const isschoolNameExist = await schoolsModel.findOne({ mobile: body1.mobile });
     if (isschoolNameExist)
-      throw new Error(`${body1.isbn} is mobile already register`)
+      throw new Error(`${body1.mobile} is mobile already register`)
   } catch (error) {
     return res.status(400).json({
       success: false,
@@ -101,8 +101,8 @@ const createschool = async (req, res) => {
   if (!isValid(body1.name) || (isValid(body1.name) && !isValidString(body1.name))) {
     response.success = false;
     response.code = 400;
-    response.message = "Invalid request data.Name is reqired";
-    response.error = "Invalid request data.Name is reqired";
+    response.message = "Invalid request data.Name is required";
+    response.error = "Invalid request data.Name is required";
     return res.status(400).json(response);
   }
   try {
@@ -220,7 +220,6 @@ const deleteschool = async (req, res) => {
     await isschoolExist.save();
     // this is soft delete.
 
-    //isTodoExist.delete();
     return res.status(200).json({
       success: true,
       code: 200,
@@ -241,48 +240,11 @@ const deleteschool = async (req, res) => {
   }
 };
 
-const getByCategory =async  (req, res)=>{
-  // const {category} = req.params
-  const  category = req.params.category; 
-  console.log(category);
-  const isCategoryExist = await schoolsModel.find({userId:res.locals.userId, category:category, isDeleted:false})
-  // console.log("I am here"+ isCategoryExist);
-  if(!isCategoryExist){
-    return res.status(403).json({
-      success: false,
-      code: 403,
-      message: "Category is not exist",
-      data: null,
-      error: null,
-      resource: req.originalUrl,
-    });
-  }
-  // if( isCategoryExist.userId.toString()!== res.locals.userId){
-  //   return res.status(403).json({
-  //     success: false,
-  //     code: 403,
-  //     message: "You are not owner !",
-  //     data: null,
-  //     error: null,
-  //     resource: req.originalUrl,
-  //   });
-  // }
-  
-  return res.status(200).json({
-    success:true,
-    code:200, 
-    message:"school list based on category for authenticate owner.",
-    data: { isCategoryExist },
-    error:null,
-    resource:req.originalUrl,
-  })
- 
-}
 module.exports = {
   getAllschools,
   createschool,
   getschoolById,
   updateschool,
   deleteschool,
-  getByCategory,
+ 
 }
