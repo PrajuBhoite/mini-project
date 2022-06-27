@@ -23,19 +23,21 @@ const authMiddleware = async (req, res, next) => {
             error: null,
         })
     }
-    try {
-        const decodedToken = await jwt.verify(token, JWT_SECRET)     
-        res.locals.userId = decodedToken.userId;   m
-        next();
-    } catch (error) {
-        return res.status(401).json({
-            success: false,
-            code: 401,
-            message: 'Unauthorized access '+ error.message,
-            data: null,
-            error: null,
-        })
-    }
-}
+;
+try {
+    const decodedToken = await jwt.verify(token, JWT_SECRET);
+    res.locals.userId = decodedToken.userId;
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      code: 401,
+      message: "Unauthorized access " + error.message,
+      data: null,
+      error: null,
+      resource: req.originalUrl,
+    });
+  }
+ };
 
 module.exports.authMiddleware = authMiddleware;

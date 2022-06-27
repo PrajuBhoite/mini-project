@@ -8,7 +8,7 @@ const authsRouter = require("./auth.routes");
 const  registerRouter = require("./register.routes");
 
 router.use("/schools", schoolsRouter);
-router.use("/auth", userRouter);
+router.use("/users", userRouter);
 router.use("/auth/login", authsRouter);
 router.use("/auth/register", registerRouter);
 
